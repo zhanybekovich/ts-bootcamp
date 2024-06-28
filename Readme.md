@@ -1,9 +1,19 @@
-# Install TypeScript and Compile
+# Workflow with tsconfig
 
-## Install
+## Init config
 
-`npm install -g typescript`
+`tsc --init`
 
-## Compile
+## Set source and output in `tsconfig.json`
 
-`tsc <fileName>`
+`"rootDir": "./src" `
+
+`"outDir": "./dist"`
+
+## Watch and run
+
+`tsc --watch`
+
+## Watch and run with node
+
+`node --watch <outputDir>/<compiled.js>`
