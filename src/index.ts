@@ -1,51 +1,35 @@
-// Array of strings
-let names: string[] = ["Pete", "Bob"];
-names.push("Mary");
+// Functions
 
-// Array of numbers
-let ages: number[] = [2, 45, 30];
-ages.push(10);
+// Parameter types
+function addTwoNumbers(a: number, b: number) {
+  return a + b;
+}
 
-console.log(names, ages);
+console.log(addTwoNumbers(2, 2));
 
-// Type inference
-let fruits = ["apples", "bananas"];
-fruits.push("oranges");
+// error
+// console.log(addTwoNumbers(2, "2"));
 
-const myFruit = fruits[0];
+// Return types
+function subtractTwoNumbers(a: number, b: number): number {
+  return a - b;
+}
 
-let things = [1, true, "hello"];
-const t = things[2];
+console.log(subtractTwoNumbers(20, 2));
 
-// Object literals
-let user: {
-  id: number;
-  firstName: string;
-  age: number;
-} = {
-  id: 1,
-  firstName: "John",
-  age: 30,
-};
+// return void
+function addAllNumbers(items: number[]): void {
+  console.log(items.reduce((a, b) => a + b, 0));
+}
 
-console.log(user);
+addAllNumbers([1, 2, 3, 4, 5]);
 
-user.age = 35;
+// error
+// console.log(addAllNumbers([1, 2, 3, 4, "5"]));
 
-console.log(user);
+// return type inference
+function formatGreeting(name: string, greeting: string) {
+  return `${greeting}, ${name}!`;
+}
 
-// error: keep structure of the object
-// user.email = "hello@gmail.com";
-
-// Type inference with object literals
-let person = {
-  name: "Lui",
-  score: 25,
-};
-
-console.log(person);
-
-// error: keep structure of the object
-// person.email = "hello@gmail.com";
-
-const score = person.score;
+const result = formatGreeting("Pete", "Hello");
