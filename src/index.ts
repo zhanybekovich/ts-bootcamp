@@ -1,22 +1,31 @@
-// Any type
-let age: any;
-age = 12;
-age = "hello";
-age = true;
+// Tuple
+let person: [string, number, boolean] = ["Pete", 32, true];
+console.log(person);
 
-let title;
-title = "hello";
-title = 25;
-title = true;
+person[0] = "Bob";
+console.log(person);
 
-// Any type in arrays
-let names: any[] = ["Pete", "Bob", true];
-names.push(12);
+// error
+// person = ["Bob", 32, "foo"];
 
-// Any type in functions
-function addTogether(value: any): any {
-  return value + value;
+// More examples
+let hsla: [number, string, string, number] = [200, "100%", "100%", 1];
+console.log(hsla);
+
+let coors: [number, number] = [94.7, 20.1];
+
+function useCoors(): [number, number] {
+  const lat = 120;
+  const long = 50;
+
+  return [lat, long];
 }
 
-console.log(addTogether("hello"));
-console.log(addTogether("5"));
+const [lat, long] = useCoors();
+
+// named tuples
+
+let user: [name: string, age: number];
+user = ["Pete", 32];
+
+console.log(user);
