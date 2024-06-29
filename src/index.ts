@@ -1,37 +1,32 @@
-// extending interfaces
+// extending type aliases
 
-interface HasFormatter {
-  format(): string;
-}
-
-interface Bill extends HasFormatter {
+type Person = {
   id: string | number;
-  amount: number;
-  server: string;
-}
+  firstName: string;
+};
 
-const user = {
+type User = Person & {
+  email: string;
+};
+
+const person1 = {
   id: 1,
-  format(): string {
-    return `This user has and id of ${this.id}`;
-  },
+  firstName: "John",
 };
 
-const bill = {
+const person2: User = {
   id: 2,
-  amount: 10,
-  server: "mary",
-  format(): string {
-    return `Bill with id ${this.id} has $${this.amount} to pay`;
-  },
+  firstName: "Bob",
+  email: "bob@me.com",
 };
 
-console.log(user.format());
-console.log(bill.format());
+const person3 = {
+  email: "pete@pete.com",
+};
 
-function printFormatted(val: HasFormatter): void {
-  console.log(val.format);
+function printUser(user: User) {
+  console.log(user.id, user.email, user.firstName);
 }
-
-printFormatted(user);
-printFormatted(bill);
+// printUser(person1);
+printUser(person2);
+// printUser(person3);
