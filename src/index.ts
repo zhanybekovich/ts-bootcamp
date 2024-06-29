@@ -1,9 +1,19 @@
-// access modifiers
+// Inheritance
 
 type Base = "classic" | "thick" | "thin" | "garlic";
 
-class Pizza {
+class MenuItem {
   constructor(private title: string, private price: number) {}
+
+  get details(): string {
+    return `${this.title} - $${this.price}`;
+  }
+}
+
+class Pizza extends MenuItem {
+  constructor(title: string, price: number) {
+    super(title, price);
+  }
 
   private base: Base = "classic";
   private toppings: string[] = [];
@@ -22,14 +32,9 @@ class Pizza {
 }
 
 const pizza: Pizza = new Pizza("mario special", 15);
-const pizza2 = new Pizza("bob special", 19);
 
-function addMushroomsToPizzas(pizzas: Pizza[]): void {
-  for (const p of pizzas) {
-    p.addTopping("mushrooms");
-  }
+function printMenuItem(item: MenuItem): void {
+  console.log(item.details);
 }
 
-addMushroomsToPizzas([pizza, pizza2]);
-
-console.log(pizza, pizza2);
+printMenuItem(pizza);
