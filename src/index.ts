@@ -1,39 +1,42 @@
-// type guards
+// reusable interfaces
 
-type Id = number | string;
-
-function swapIdType(id: Id) {
-  if (typeof id === "string") {
-    return parseInt(id);
-  } else {
-    return id.toString();
-  }
+interface hasQuantity {
+  quantity: number;
 }
 
-const id1 = swapIdType("1");
-const id2 = swapIdType(2);
+const something: hasQuantity = {
+  quantity: 1,
+};
 
-console.log(id1, id2);
+console.log(something.quantity);
 
-// tagged interfaces
-interface User {
-  type: "user";
-  username: string;
-  email: string;
-  id: Id;
+function printQuantity(item: hasQuantity): void {
+  console.log(`The quantity of the item is ${item.quantity}`);
 }
 
-interface Person {
-  type: "person";
-  firstName: string;
-  age: number;
-  id: Id;
-}
+const fruit = {
+  name: "apple",
+  quantity: 5,
+};
 
-function logDetails(value: User | Person): void {
-  if (value.type === "user") {
-    console.log(value.username);
-  } else {
-    console.log(value.firstName);
-  }
-}
+const vehicle = {
+  type: "car",
+  quantity: 3,
+};
+
+const person = {
+  name: "John",
+  age: 30,
+};
+
+printQuantity(fruit);
+printQuantity(vehicle);
+
+// error
+// printQuantity(person);
+
+// works
+printQuantity({ quantity: 50 });
+
+// error
+// printQuantity({ quantity: 50, title: "foo" });
