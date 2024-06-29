@@ -1,28 +1,39 @@
-// union types
-
-let someId: number | string;
-someId = 10;
-console.log(someId);
-someId = "35";
-console.log(someId);
-
-let email: string | null;
-email = null;
-console.log(email);
-email = "5hYp6@example.com";
-console.log(email);
+// type guards
 
 type Id = number | string;
 
-// pitfalls
 function swapIdType(id: Id) {
   if (typeof id === "string") {
-    id = id.split("").reverse().join("");
+    return parseInt(id);
+  } else {
+    return id.toString();
   }
+}
 
-  if (typeof id === "number") {
-    id = id * -1;
+const id1 = swapIdType("1");
+const id2 = swapIdType(2);
+
+console.log(id1, id2);
+
+// tagged interfaces
+interface User {
+  type: "user";
+  username: string;
+  email: string;
+  id: Id;
+}
+
+interface Person {
+  type: "person";
+  firstName: string;
+  age: number;
+  id: Id;
+}
+
+function logDetails(value: User | Person): void {
+  if (value.type === "user") {
+    console.log(value.username);
+  } else {
+    console.log(value.firstName);
   }
-
-  return id;
 }
