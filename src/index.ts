@@ -1,12 +1,20 @@
-// Inheritance
+// classes with interfaces
 
 type Base = "classic" | "thick" | "thin" | "garlic";
 
-class MenuItem {
+interface HasFormatter {
+  format(): string;
+}
+
+class MenuItem implements HasFormatter {
   constructor(private title: string, private price: number) {}
 
   get details(): string {
     return `${this.title} - $${this.price}`;
+  }
+
+  format(): string {
+    return `This menu item is called ${this.title} and costs $${this.price}`;
   }
 }
 
@@ -33,8 +41,8 @@ class Pizza extends MenuItem {
 
 const pizza: Pizza = new Pizza("mario special", 15);
 
-function printMenuItem(item: MenuItem): void {
-  console.log(item.details);
+function printFormatted(val: HasFormatter): void {
+  console.log(val.format());
 }
 
-printMenuItem(pizza);
+printFormatted(pizza);
