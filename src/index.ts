@@ -1,35 +1,28 @@
-// type aliases
+// union types
 
-// example of tuple
-type Rgb = [number, number, number];
+let someId: number | string;
+someId = 10;
+console.log(someId);
+someId = "35";
+console.log(someId);
 
-function getRandomColor(): Rgb {
-  const r = Math.floor(Math.random() * 255);
-  const g = Math.floor(Math.random() * 255);
-  const b = Math.floor(Math.random() * 255);
+let email: string | null;
+email = null;
+console.log(email);
+email = "5hYp6@example.com";
+console.log(email);
 
-  return [r, g, b];
+type Id = number | string;
+
+// pitfalls
+function swapIdType(id: Id) {
+  if (typeof id === "string") {
+    id = id.split("").reverse().join("");
+  }
+
+  if (typeof id === "number") {
+    id = id * -1;
+  }
+
+  return id;
 }
-
-console.log(getRandomColor());
-
-// example of object literal
-
-type User = {
-  name: string;
-  score: number;
-};
-
-const userOne: User = {
-  name: "John",
-  score: 10,
-};
-
-console.log(userOne);
-
-function formatUser(user: User): void {
-  console.log(`${user.name} has a score of ${user.score}`);
-}
-
-formatUser(userOne);
-formatUser({ name: "Bob", score: 20 });
