@@ -1,31 +1,48 @@
-// Tuple
-let person: [string, number, boolean] = ["Pete", 32, true];
-console.log(person);
+// Interfaces
 
-person[0] = "Bob";
-console.log(person);
-
-// error
-// person = ["Bob", 32, "foo"];
-
-// More examples
-let hsla: [number, string, string, number] = [200, "100%", "100%", 1];
-console.log(hsla);
-
-let coors: [number, number] = [94.7, 20.1];
-
-function useCoors(): [number, number] {
-  const lat = 120;
-  const long = 50;
-
-  return [lat, long];
+interface Author {
+  name: string;
+  avatar: string;
 }
 
-const [lat, long] = useCoors();
+const authorOne: Author = {
+  name: "John Doe",
+  avatar: "https://i.pravatar.cc/300",
+};
 
-// named tuples
+interface Post {
+  title: string;
+  body: string;
+  tags: string[];
+  createdAt: Date;
+  author: Author;
+}
 
-let user: [name: string, age: number];
-user = ["Pete", 32];
+const newPost: Post = {
+  title: "Hello World",
+  body: "This is my first post",
+  tags: ["typescript", "javascript"],
+  createdAt: new Date(),
+  author: authorOne,
+};
 
-console.log(user);
+// as functions arguments
+function createPost(post: Post): void {
+  console.log(`Created post: ${post.title} by ${post.author.name}`);
+}
+
+createPost(newPost);
+
+// usage with arrays
+
+let posts: Post[] = [];
+posts.push(newPost);
+posts.push({
+  title: "Hello World 2",
+  body: "This is my second post",
+  tags: ["typescript", "javascript"],
+  createdAt: new Date(),
+  author: authorOne,
+});
+
+console.log(posts);
