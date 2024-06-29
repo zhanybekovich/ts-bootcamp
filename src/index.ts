@@ -1,4 +1,4 @@
-// classes with interfaces
+// abstract classes
 
 type Base = "classic" | "thick" | "thin" | "garlic";
 
@@ -6,16 +6,14 @@ interface HasFormatter {
   format(): string;
 }
 
-class MenuItem implements HasFormatter {
+abstract class MenuItem implements HasFormatter {
   constructor(private title: string, private price: number) {}
 
   get details(): string {
     return `${this.title} - $${this.price}`;
   }
 
-  format(): string {
-    return `This menu item is called ${this.title} and costs $${this.price}`;
-  }
+  abstract format(): string;
 }
 
 class Pizza extends MenuItem {
@@ -37,6 +35,22 @@ class Pizza extends MenuItem {
   selectBase(b: Base): void {
     this.base = b;
   }
+
+  format(): string {
+    let formatted = this.details + "\n";
+
+    formatted += `Pizza on a ${this.base} base `;
+
+    if (this.toppings.length < 1) {
+      formatted += `with no toppings`;
+    }
+
+    if (this.toppings.length > 0) {
+      formatted += `with ${this.toppings.join(", ")}`;
+    }
+
+    return formatted;
+  }
 }
 
 const pizza: Pizza = new Pizza("mario special", 15);
@@ -44,5 +58,8 @@ const pizza: Pizza = new Pizza("mario special", 15);
 function printFormatted(val: HasFormatter): void {
   console.log(val.format());
 }
+
+pizza.addTopping("pepperoni");
+pizza.addTopping("mushrooms");
 
 printFormatted(pizza);
