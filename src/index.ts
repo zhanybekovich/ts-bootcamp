@@ -1,65 +1,49 @@
-// abstract classes
+// CSV Writer Project
 
-type Base = "classic" | "thick" | "thin" | "garlic";
+import { appendFileSync } from "fs";
 
-interface HasFormatter {
-  format(): string;
+interface Payment {
+  id: number;
+  amount: number;
+  to: string;
+  notes: string;
 }
 
-abstract class MenuItem implements HasFormatter {
-  constructor(private title: string, private price: number) {}
+type PaymentColumns = ("id" | "amount" | "to" | "notes")[];
 
-  get details(): string {
-    return `${this.title} - $${this.price}`;
+class CSVWriter {
+  constructor(private columns: PaymentColumns) {
+    this.csv = this.columns.join(",") + "\n";
   }
 
-  abstract format(): string;
-}
+  private csv: string;
 
-class Pizza extends MenuItem {
-  constructor(title: string, price: number) {
-    super(title, price);
+  save(filename: string): void {
+    appendFileSync(filename, this.csv);
+
+    this.csv = "\n";
+    console.log("file saved to", filename);
   }
 
-  private base: Base = "classic";
-  private toppings: string[] = [];
+  addRows(values: Payment[]): void {
+    let rows = values.map((v) => this.formatRow(v));
 
-  addTopping(topping: string): void {
-    this.toppings.push(topping);
+    this.csv += rows.join("\n");
+
+    console.log(this.csv);
   }
 
-  removeTopping(topping: string): void {
-    this.toppings = this.toppings.filter((t) => t !== topping);
-  }
-
-  selectBase(b: Base): void {
-    this.base = b;
-  }
-
-  format(): string {
-    let formatted = this.details + "\n";
-
-    formatted += `Pizza on a ${this.base} base `;
-
-    if (this.toppings.length < 1) {
-      formatted += `with no toppings`;
-    }
-
-    if (this.toppings.length > 0) {
-      formatted += `with ${this.toppings.join(", ")}`;
-    }
-
-    return formatted;
+  private formatRow(p: Payment): string {
+    return this.columns.map((col) => p[col]).join(",");
   }
 }
 
-const pizza: Pizza = new Pizza("mario special", 15);
+const writer = new CSVWriter(["id", "amount", "to", "notes"]);
 
-function printFormatted(val: HasFormatter): void {
-  console.log(val.format());
-}
+writer.addRows([
+  { id: 1, amount: 105, to: "foo", notes: "bar" },
+  { id: 2, amount: 45, to: "mario", notes: "bazz" },
+  { id: 3, amount: 73, to: "john", notes: "something" },
+]);
 
-pizza.addTopping("pepperoni");
-pizza.addTopping("mushrooms");
-
-printFormatted(pizza);
+writer.save("./data/payments.csv");
