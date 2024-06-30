@@ -1,49 +1,60 @@
-// CSV Writer Project
+// Generics
 
-import { appendFileSync } from "fs";
-
-interface Payment {
-  id: number;
-  amount: number;
-  to: string;
-  notes: string;
+function logAndReturnString(val: string): string {
+  console.log(val);
+  return val;
 }
 
-type PaymentColumns = ("id" | "amount" | "to" | "notes")[];
-
-class CSVWriter {
-  constructor(private columns: PaymentColumns) {
-    this.csv = this.columns.join(",") + "\n";
-  }
-
-  private csv: string;
-
-  save(filename: string): void {
-    appendFileSync(filename, this.csv);
-
-    this.csv = "\n";
-    console.log("file saved to", filename);
-  }
-
-  addRows(values: Payment[]): void {
-    let rows = values.map((v) => this.formatRow(v));
-
-    this.csv += rows.join("\n");
-
-    console.log(this.csv);
-  }
-
-  private formatRow(p: Payment): string {
-    return this.columns.map((col) => p[col]).join(",");
-  }
+function logAndReturnNumber(val: number): number {
+  console.log(val);
+  return val;
 }
 
-const writer = new CSVWriter(["id", "amount", "to", "notes"]);
+function logAndReturnBoolean(val: boolean): boolean {
+  console.log(val);
+  return val;
+}
 
-writer.addRows([
-  { id: 1, amount: 105, to: "foo", notes: "bar" },
-  { id: 2, amount: 45, to: "mario", notes: "bazz" },
-  { id: 3, amount: 73, to: "john", notes: "something" },
-]);
+// using generics
 
-writer.save("./data/payments.csv");
+function logAndReturnValue<T>(val: T): T {
+  console.log(val);
+  return val;
+}
+
+const result1 = logAndReturnValue<string>("hello");
+const result2 = logAndReturnValue<number>(10);
+const result3 = logAndReturnValue<boolean>(true);
+
+function getRandomArrayValue<T>(values: T[]): T {
+  const i = Math.floor(Math.random() * values.length);
+
+  return values[i];
+}
+
+interface User {
+  name: string;
+  score: number;
+}
+
+const users: User[] = [
+  {
+    name: "John",
+    score: 10,
+  },
+  {
+    name: "Jane",
+    score: 20,
+  },
+  {
+    name: "Bob",
+    score: 40,
+  },
+  {
+    name: "Mike",
+    score: 400,
+  },
+];
+
+const randomUser = getRandomArrayValue<User>(users);
+console.log(randomUser);
