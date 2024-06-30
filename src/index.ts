@@ -1,23 +1,26 @@
-// Intersection types
+// Generic interface
 
-interface HasID {
-  id: number;
+interface Collection<T> {
+  data: T[];
+  name: string;
 }
 
-function addIdToValue<T>(val: T): T & HasID {
-  const id = Math.random();
+const collection1: Collection<string> = {
+  data: ["foo", "bar"],
+  name: "strings",
+};
 
-  return { ...val, id };
+const collection2: Collection<number> = {
+  data: [1, 2, 3],
+  name: "numbers",
+};
+
+console.log(collection1, collection2);
+
+function randomCollectionItem<T>(c: Collection<T>): T {
+  const index = Math.floor(Math.random() * c.data.length);
+  return c.data[index];
 }
 
-interface Post {
-  title: string;
-  thumbsUp: number;
-}
-
-const post = addIdToValue<Post>({
-  title: "Hello",
-  thumbsUp: 0,
-});
-
-console.log(post);
+console.log(randomCollectionItem(collection1));
+console.log(randomCollectionItem(collection2));
